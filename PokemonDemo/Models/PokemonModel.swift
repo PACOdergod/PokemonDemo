@@ -17,6 +17,7 @@ struct PokemonModel: Codable, Identifiable, Equatable {
     let id = UUID()
     let name: String
     let url: String
+//    var index = 0
     
     static var example = PokemonModel(name: "bulbasaur", url: "https://pokeapi.co/api/v2/pokemon/1/")
 }

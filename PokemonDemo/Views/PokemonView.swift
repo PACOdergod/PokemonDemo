@@ -8,24 +8,25 @@
 import SwiftUI
 
 struct PokemonView: View {
+    
     @EnvironmentObject var vm: ViewModel
     
     let pokemon: PokemonModel
     let index: Int
-    private let dimensions: Double = 140
     private let urlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
     
     var body: some View {
+        let urlString = "\(urlImage)\(vm.getPokemonIndex(pokemon: pokemon)).png"
         VStack {
-            AsyncImage(url: URL(string: "\(urlImage)\(index+1).png")) { image in
+            AsyncImage(url: URL(string: urlString)) { image in
                 if let image = image {
                     image.resizable()
                         .scaledToFit()
-                        .frame(width: dimensions, height: dimensions)
+                        .frame(width: 140, height: 140)
                 }
             } placeholder: {
                 ProgressView()
-                    .frame(width: dimensions, height: dimensions)
+                    .frame(width: 140, height: 140)
             }
             .background(.thinMaterial)
             .clipShape(Circle())

@@ -50,7 +50,7 @@ final class ViewModel: ObservableObject {
     }
     
     func getPokemonIndex(pokemon: PokemonModel) -> Int {
-        if let index = self.pokemonList.firstIndex(of: pokemon) {
+        if let index = self.totalPokemonList.firstIndex(of: pokemon) {
             return index + 1
         }
         return 0
