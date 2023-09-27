@@ -9,13 +9,14 @@ import SwiftUI
 
 struct PokemonDetailView: View {
     let pokemon: PokemonModel
+    let image: PokemonView
     
     @State var isLoading = true
     @State var pokemonDetails: PokemonDetails?
     
     var body: some View {
         VStack {
-            PokemonView(pokemon: pokemon)
+            image
             
             if !isLoading {
                 VStack(spacing: 10) {
@@ -24,7 +25,6 @@ struct PokemonDetailView: View {
                     Text("**Peso**: \(pokemonDetails?.weight ?? 0) KG")
                 }
             }
-            
         }
         .onAppear {
             getDetails()
@@ -36,31 +36,21 @@ struct PokemonDetailView: View {
         
         let detailsUrl = URL(string: pokemon.url)!
         
-        URLSession.shared.dataTask(with: detailsUrl) { data, response, error in
-            guard let data = data else {
-                if let _ = error {
-                    self.isLoading = false
-                    print("error")
-                }
-                return
-            }
-            
-            do {
-                let serverData = try JSONDecoder().decode(PokemonDetails.self, from: data)
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.pokemonDetails = serverData
-                }
-            } catch {
-                self.isLoading = false
-                print("error")
-            }
-        }.resume()
+        Helpers.callApi(url: detailsUrl, model: PokemonDetails.self) { details in
+            self.isLoading = false
+            self.pokemonDetails = details
+        } failure: { error in
+            self.isLoading = false
+            print("error")
+        }
     }
 }
 
 struct PokemonDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonDetailView(pokemon: PokemonModel.example)
+        PokemonDetailView(
+            pokemon: PokemonModel.example,
+            image: PokemonView(pokemon: PokemonModel.example)
+        )
     }
 }

@@ -37,10 +37,12 @@ struct ContentView: View {
         ScrollView {
             LazyVGrid(columns: adaptativeColums, spacing: 10) {
                 ForEach(vm.filteredPokemon) {pokemon in
+                    let image = PokemonView(pokemon: pokemon)
+                    
                     NavigationLink(destination: {
-                        PokemonDetailView(pokemon: pokemon)
+                        PokemonDetailView(pokemon: pokemon, image: image)
                     }, label: {
-                        PokemonView(pokemon: pokemon)
+                        image
                     })
                     
                 }
