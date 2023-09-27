@@ -26,11 +26,6 @@ struct ContentView: View {
             }
         }
         .environmentObject(vm)
-        .onAppear {
-            vm.getPokemonList { error in
-                print(error)
-            }
-        }
     }
     
     var grid: some View {

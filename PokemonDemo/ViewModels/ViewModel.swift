@@ -12,16 +12,15 @@ final class ViewModel: ObservableObject {
     private let url = URL(string:"https://pokeapi.co/api/v2/pokemon")!
     
     @Published var pokemonList = [PokemonModel]()
-    @Published var pokemonDetails: PokemonDetails?
     @Published var searchText = ""
     @Published var isLoading = true
-    @Published var indexPokemonSelected: Int?
+    @Published var error: Error?
     
-//    init() {
-//        self.pokemonList = manager.getPokemon()
-//    }
+    init() {
+        self.getPokemonList()
+    }
     
-    func getPokemonList(onError: @escaping (Error)->Void) {
+    func getPokemonList() {
         isLoading = true
         
         Helpers.callApi(url: url, model: PokemonPage.self) { data in
