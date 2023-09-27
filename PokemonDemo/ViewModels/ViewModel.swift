@@ -18,9 +18,9 @@ final class ViewModel: ObservableObject {
     @Published var isLoading = true
     @Published var indexPokemonSelected: Int?
     
-    init() {
-        self.pokemonList = manager.getPokemon()
-    }
+//    init() {
+//        self.pokemonList = manager.getPokemon()
+//    }
     
     func getPokemonList(onError: @escaping (Error)->Void) {
         isLoading = true
