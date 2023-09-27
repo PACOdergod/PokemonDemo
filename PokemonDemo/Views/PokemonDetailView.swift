@@ -50,7 +50,7 @@ struct PokemonDetailView_Previews: PreviewProvider {
     static var previews: some View {
         PokemonDetailView(
             pokemon: PokemonModel.example,
-            image: PokemonView(pokemon: PokemonModel.example)
+            image: PokemonView(pokemon: PokemonModel.example, index: 1)
         )
     }
 }

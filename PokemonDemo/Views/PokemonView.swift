@@ -11,12 +11,13 @@ struct PokemonView: View {
     @EnvironmentObject var vm: ViewModel
     
     let pokemon: PokemonModel
+    let index: Int
     private let dimensions: Double = 140
-    private let urlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+    private let urlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(vm.getPokemonIndex(pokemon: pokemon)).png")) { image in
+            AsyncImage(url: URL(string: "\(urlImage)\(index+1).png")) { image in
                 if let image = image {
                     image.resizable()
                         .scaledToFit()
@@ -38,7 +39,7 @@ struct PokemonView: View {
 
 struct PokemonView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonView(pokemon: PokemonModel.example)
+        PokemonView(pokemon: PokemonModel.example, index: 1)
             .environmentObject(ViewModel())
     }
 }
