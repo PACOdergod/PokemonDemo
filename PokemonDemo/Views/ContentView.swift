@@ -16,37 +16,39 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        VStack {
-            Button {
-                vm.getPokemonList { error in
-                    print(error)
-                }
-            } label: {
-                Text("buscar informacion")
+        NavigationView {
+            if vm.isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .black))
+                    .scaleEffect(2)
+            } else {
+                grid
             }
-
+        }
+        .environmentObject(vm)
+        .onAppear {
+            vm.getPokemonList { error in
+                print(error)
+            }
         }
     }
     
-//    var body: some View {
-//        NavigationView {
-//            ScrollView {
-//                LazyVGrid(columns: adaptativeColums, spacing: 10) {
-//                    ForEach(vm.filteredPokemon) {pokemon in
-//                        NavigationLink {
-//                            PokemonDetailView(pokemon: pokemon)
-//                        } label: {
-//                            PokemonView(pokemon: pokemon)
-//                        }
-//
-//                    }
-//
-//                }
-//            }
-//            .searchable(text: $vm.searchText)
-//        }
-//        .environmentObject(vm)
-//    }
+    var grid: some View {
+        ScrollView {
+            LazyVGrid(columns: adaptativeColums, spacing: 10) {
+                ForEach(vm.filteredPokemon) {pokemon in
+                    NavigationLink(destination: {
+                        PokemonDetailView(pokemon: pokemon)
+                    }, label: {
+                        PokemonView(pokemon: pokemon)
+                    })
+                    
+                }
+                
+            }
+        }
+        .searchable(text: $vm.searchText)
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

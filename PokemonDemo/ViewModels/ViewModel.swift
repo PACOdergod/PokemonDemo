@@ -15,7 +15,8 @@ final class ViewModel: ObservableObject {
     @Published var pokemonList = [PokemonModel]()
     @Published var pokemonDetails: PokemonDetails?
     @Published var searchText = ""
-    @Published var isLoading = false
+    @Published var isLoading = true
+    @Published var indexPokemonSelected: Int?
     
     init() {
         self.pokemonList = manager.getPokemon()
@@ -60,6 +61,10 @@ final class ViewModel: ObservableObject {
         }
     }
     
+    func selectPokemon(_ pokemon: PokemonModel) {
+        self.indexPokemonSelected = self.pokemonList.firstIndex(of: pokemon)
+    }
+    
     func getPokemonIndex(pokemon: PokemonModel) -> Int {
         if let index = self.pokemonList.firstIndex(of: pokemon) {
             return index + 1
@@ -67,17 +72,37 @@ final class ViewModel: ObservableObject {
         return 0
     }
     
-    func getDetails(pokemon: PokemonModel) {
+    func getDetails(onError: @escaping (Error)->Void) {
         isLoading = true
-        let id = getPokemonIndex(pokemon: pokemon)
-        self.pokemonDetails = PokemonDetails(id: 0, height: 0, weight: 0)
+        let id = (self.indexPokemonSelected ?? 0) + 1
+        self.pokemonDetails = nil
         
-        manager.getDetailsPokemon(id: id) { details in
-            DispatchQueue.main.async {
-                self.pokemonDetails = details
-                self.isLoading = false
+        let detailsUrl = URL(string: "https://pokeapi.co/api/v2/pokemon/\(id)/")!
+        
+        URLSession.shared.dataTask(with: detailsUrl) { data, response, error in
+            guard let data = data else {
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                    }
+                    onError(error)
+                }
+                return
             }
-        }
+            
+            do {
+                let serverData = try JSONDecoder().decode(PokemonDetails.self, from: data)
+                DispatchQueue.main.async {
+                    self.pokemonDetails = serverData
+                    self.isLoading = false
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                }
+                onError(error)
+            }
+        }.resume()
     }
     
 }

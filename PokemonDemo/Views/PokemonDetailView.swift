@@ -22,7 +22,10 @@ struct PokemonDetailView: View {
             }
         }
         .onAppear {
-            vm.getDetails(pokemon: pokemon)
+            vm.selectPokemon(pokemon)
+            vm.getDetails { error in
+                print(error)
+            }
         }
     }
 }
