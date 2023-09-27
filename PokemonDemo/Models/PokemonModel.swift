@@ -21,6 +21,7 @@ struct PokemonModel: Codable, Equatable  {
 }
 
 struct PokemonDetails: Codable {
+    let id: Int
     let height: Int
     let weight: Int
 }
