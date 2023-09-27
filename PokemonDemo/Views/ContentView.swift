@@ -30,9 +30,17 @@ struct ContentView: View {
     
     var grid: some View {
         ScrollView {
+            TextField(text: $vm.searchText) {
+                HStack {
+                    Text("Buscar")
+                }
+            }
+            .padding()
+            .background(.thinMaterial)
+            .padding()
+            
             LazyVGrid(columns: adaptativeColums, spacing: 10) {
-                ForEach(0..<vm.pokemonList.count) {index in
-                    let pokemon = vm.pokemonList[index]
+                ForEach(Array(vm.pokemonList.enumerated()), id: \.offset) {index, pokemon in
                     let image = PokemonView(pokemon: pokemon, index: index)
                     
                     NavigationLink(destination: {
@@ -45,7 +53,7 @@ struct ContentView: View {
                 
             }
         }
-        .searchable(text: $vm.searchText)
+//        .searchable(text: $vm.searchText)
     }
 }
 

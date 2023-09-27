@@ -11,8 +11,14 @@ import SwiftUI
 final class ViewModel: ObservableObject {
     private let url = URL(string:"https://pokeapi.co/api/v2/pokemon")!
     
+    private var totalPokemonList = [PokemonModel]()
+    
     @Published var pokemonList = [PokemonModel]()
-    @Published var searchText = ""
+    @Published var searchText = "" {
+        didSet {
+            filterPokemon()
+        }
+    }
     @Published var isLoading = true
     @Published var error: Error?
     
@@ -24,6 +30,7 @@ final class ViewModel: ObservableObject {
         isLoading = true
         
         Helpers.callApi(url: url, model: PokemonPage.self) { data in
+            self.totalPokemonList = data.results
             self.pokemonList = data.results
             self.isLoading = false
         } failure: { error in
@@ -32,13 +39,13 @@ final class ViewModel: ObservableObject {
         }
     }
     
-    var filteredPokemon: [PokemonModel] {
+    private func filterPokemon() {
         if searchText.isEmpty {
-            return pokemonList
-        }
-        
-        return pokemonList.filter {
-            $0.name.contains(searchText.lowercased())
+            self.pokemonList = totalPokemonList
+        } else {
+            self.pokemonList = totalPokemonList.filter {
+                $0.name.contains(searchText.lowercased())
+            }
         }
     }
     
