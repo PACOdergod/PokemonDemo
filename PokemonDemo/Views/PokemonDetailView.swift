@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
-    @EnvironmentObject var vm: ViewModel
     let pokemon: PokemonModel
+    
     @State var isLoading = true
     @State var pokemonDetails: PokemonDetails?
     
@@ -32,7 +32,6 @@ struct PokemonDetailView: View {
     }
     
     func getDetails() {
-        let id = vm.getPokemonIndex(pokemon: pokemon) + 1
         self.pokemonDetails = nil
         
         let detailsUrl = URL(string: pokemon.url)!
@@ -63,6 +62,5 @@ struct PokemonDetailView: View {
 struct PokemonDetailView_Previews: PreviewProvider {
     static var previews: some View {
         PokemonDetailView(pokemon: PokemonModel.example)
-            .environmentObject(ViewModel())
     }
 }

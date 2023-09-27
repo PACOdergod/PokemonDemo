@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PokemonView: View {
     @EnvironmentObject var vm: ViewModel
+    
     let pokemon: PokemonModel
     private let dimensions: Double = 140
     private let urlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
