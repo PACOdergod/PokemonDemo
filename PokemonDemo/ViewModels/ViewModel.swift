@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 final class ViewModel: ObservableObject {
-    private let manager = PokemonManager()
     private let url = URL(string:"https://pokeapi.co/api/v2/pokemon/")!
     
     @Published var pokemonList = [PokemonModel]()
