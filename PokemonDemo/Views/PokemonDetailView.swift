@@ -15,16 +15,18 @@ struct PokemonDetailView: View {
         VStack {
             PokemonView(pokemon: pokemon)
             
-            VStack(spacing: 10) {
-                Text("**ID**: \(vm.pokemonDetails?.id ?? 0)")
-                Text("**Altura**: \(vm.pokemonDetails?.height ?? 0) Mts")
-                Text("**Peso**: \(vm.pokemonDetails?.weight ?? 0) KG")
+            if vm.pokemonDetails != nil {            
+                VStack(spacing: 10) {
+                    Text("**ID**: \(vm.pokemonDetails?.id ?? 0)")
+                    Text("**Altura**: \(vm.pokemonDetails?.height ?? 0) Mts")
+                    Text("**Peso**: \(vm.pokemonDetails?.weight ?? 0) KG")
+                }
             }
+            
         }
         .onAppear {
-            vm.selectPokemon(pokemon)
-            vm.getDetails { error in
-                print(error)
+            vm.getDetails(pokemon) { error in
+                print("error")
             }
         }
     }
