@@ -10,25 +10,53 @@ import SwiftUI
 struct PokemonDetailView: View {
     @EnvironmentObject var vm: ViewModel
     let pokemon: PokemonModel
+    @State var isLoading = true
+    @State var pokemonDetails: PokemonDetails?
     
     var body: some View {
         VStack {
             PokemonView(pokemon: pokemon)
             
-            if vm.pokemonDetails != nil {            
+            if !isLoading {
                 VStack(spacing: 10) {
-                    Text("**ID**: \(vm.pokemonDetails?.id ?? 0)")
-                    Text("**Altura**: \(vm.pokemonDetails?.height ?? 0) Mts")
-                    Text("**Peso**: \(vm.pokemonDetails?.weight ?? 0) KG")
+                    Text("**ID**: \(pokemonDetails?.id ?? 0)")
+                    Text("**Altura**: \(pokemonDetails?.height ?? 0) Mts")
+                    Text("**Peso**: \(pokemonDetails?.weight ?? 0) KG")
                 }
             }
             
         }
         .onAppear {
-            vm.getDetails(pokemon) { error in
+            getDetails()
+        }
+    }
+    
+    func getDetails() {
+        let id = vm.getPokemonIndex(pokemon: pokemon) + 1
+        self.pokemonDetails = nil
+        
+        let detailsUrl = URL(string: pokemon.url)!
+        
+        URLSession.shared.dataTask(with: detailsUrl) { data, response, error in
+            guard let data = data else {
+                if let _ = error {
+                    self.isLoading = false
+                    print("error")
+                }
+                return
+            }
+            
+            do {
+                let serverData = try JSONDecoder().decode(PokemonDetails.self, from: data)
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.pokemonDetails = serverData
+                }
+            } catch {
+                self.isLoading = false
                 print("error")
             }
-        }
+        }.resume()
     }
 }
 

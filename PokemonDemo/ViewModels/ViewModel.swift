@@ -68,29 +68,4 @@ final class ViewModel: ObservableObject {
         return 0
     }
     
-    func getDetails(_ pokemon: PokemonModel,  onError: @escaping (Error)->Void) {
-        let id = getPokemonIndex(pokemon: pokemon) + 1
-        self.pokemonDetails = nil
-        
-        let detailsUrl = URL(string: "https://pokeapi.co/api/v2/pokemon/\(id)/")!
-        
-        URLSession.shared.dataTask(with: detailsUrl) { data, response, error in
-            guard let data = data else {
-                if let error = error {
-                    onError(error)
-                }
-                return
-            }
-            
-            do {
-                let serverData = try JSONDecoder().decode(PokemonDetails.self, from: data)
-                DispatchQueue.main.async {
-                    self.pokemonDetails = serverData
-                }
-            } catch {
-                onError(error)
-            }
-        }.resume()
-    }
-    
 }
