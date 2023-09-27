@@ -13,6 +13,7 @@
 		338DE5452AC3595B00394850 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 338DE5442AC3595B00394850 /* Preview Assets.xcassets */; };
 		338DE54D2AC359D400394850 /* pokemon.json in Resources */ = {isa = PBXBuildFile; fileRef = 338DE54C2AC359D400394850 /* pokemon.json */; };
 		338DE5502AC35AC000394850 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DE54F2AC35AC000394850 /* Helpers.swift */; };
+		338DE5532AC366EB00394850 /* PokemonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338DE5522AC366EB00394850 /* PokemonModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		338DE5442AC3595B00394850 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		338DE54C2AC359D400394850 /* pokemon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pokemon.json; sourceTree = "<group>"; };
 		338DE54F2AC35AC000394850 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		338DE5522AC366EB00394850 /* PokemonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,10 +57,11 @@
 		338DE53C2AC3595A00394850 /* PokemonDemo */ = {
 			isa = PBXGroup;
 			children = (
-				338DE54E2AC35AA300394850 /* Helpers */,
-				338DE54B2AC359AF00394850 /* Data */,
 				338DE53D2AC3595A00394850 /* PokemonDemoApp.swift */,
 				338DE53F2AC3595A00394850 /* ContentView.swift */,
+				338DE54E2AC35AA300394850 /* Helpers */,
+				338DE5512AC366BA00394850 /* Models */,
+				338DE54B2AC359AF00394850 /* Data */,
 				338DE5412AC3595B00394850 /* Assets.xcassets */,
 				338DE5432AC3595B00394850 /* Preview Content */,
 			);
@@ -87,6 +90,14 @@
 				338DE54F2AC35AC000394850 /* Helpers.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		338DE5512AC366BA00394850 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				338DE5522AC366EB00394850 /* PokemonModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +174,7 @@
 				338DE5402AC3595A00394850 /* ContentView.swift in Sources */,
 				338DE5502AC35AC000394850 /* Helpers.swift in Sources */,
 				338DE53E2AC3595A00394850 /* PokemonDemoApp.swift in Sources */,
+				338DE5532AC366EB00394850 /* PokemonModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
