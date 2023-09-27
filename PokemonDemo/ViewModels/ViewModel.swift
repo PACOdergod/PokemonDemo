@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 final class ViewModel: ObservableObject {
-    private let url = URL(string:"https://pokeapi.co/api/v2/pokemon/")!
+    private let url = URL(string:"https://pokeapi.co/api/v2/pokemon")!
     
     @Published var pokemonList = [PokemonModel]()
     @Published var pokemonDetails: PokemonDetails?
@@ -24,30 +24,13 @@ final class ViewModel: ObservableObject {
     func getPokemonList(onError: @escaping (Error)->Void) {
         isLoading = true
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.isLoading = false
-                    }
-                    onError(error)
-                }
-                return
-            }
-            
-            do {
-                let serverData = try JSONDecoder().decode(PokemonPage.self, from: data)
-                DispatchQueue.main.async {
-                    self.pokemonList = serverData.results
-                    self.isLoading = false
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                }
-                onError(error)
-            }
-        }.resume()
+        Helpers.callApi(url: url, model: PokemonPage.self) { data in
+            self.pokemonList = data.results
+            self.isLoading = false
+        } failure: { error in
+            self.isLoading = false
+            print(error)
+        }
     }
     
     var filteredPokemon: [PokemonModel] {
