@@ -16,24 +16,37 @@ struct ContentView: View {
     ]
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: adaptativeColums, spacing: 10) {
-                    ForEach(vm.filteredPokemon) {pokemon in
-                        NavigationLink {
-                            PokemonDetailView(pokemon: pokemon)
-                        } label: {
-                            PokemonView(pokemon: pokemon)
-                        }
-
-                    }
-                    
+        VStack {
+            Button {
+                vm.getPokemonList { error in
+                    print(error)
                 }
+            } label: {
+                Text("buscar informacion")
             }
-            .searchable(text: $vm.searchText)
+
         }
-        .environmentObject(vm)
     }
+    
+//    var body: some View {
+//        NavigationView {
+//            ScrollView {
+//                LazyVGrid(columns: adaptativeColums, spacing: 10) {
+//                    ForEach(vm.filteredPokemon) {pokemon in
+//                        NavigationLink {
+//                            PokemonDetailView(pokemon: pokemon)
+//                        } label: {
+//                            PokemonView(pokemon: pokemon)
+//                        }
+//
+//                    }
+//
+//                }
+//            }
+//            .searchable(text: $vm.searchText)
+//        }
+//        .environmentObject(vm)
+//    }
 }
 
 struct ContentView_Previews: PreviewProvider {
