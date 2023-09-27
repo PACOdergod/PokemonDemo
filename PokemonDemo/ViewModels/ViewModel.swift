@@ -14,8 +14,13 @@ final class ViewModel: ObservableObject {
     @Published var pokemonList = [PokemonModel]()
     @Published var pokemonDetails: PokemonDetails?
     @Published var searchText = ""
+    @Published var isLoading = false
     
-    func filterPokemon() -> [PokemonModel] {
+    init() {
+        self.pokemonList = manager.getPokemon()
+    }
+    
+    var filteredPokemon: [PokemonModel] {
         if searchText.isEmpty {
             return pokemonList
         }
@@ -25,8 +30,24 @@ final class ViewModel: ObservableObject {
         }
     }
     
-    init() {
-        self.pokemonList = manager.getPokemon()
-        print(pokemonList)
+    func getPokemonIndex(pokemon: PokemonModel) -> Int {
+        if let index = self.pokemonList.firstIndex(of: pokemon) {
+            return index + 1
+        }
+        return 0
     }
+    
+    func getDetails(pokemon: PokemonModel) {
+        isLoading = true
+        let id = getPokemonIndex(pokemon: pokemon)
+        self.pokemonDetails = PokemonDetails(id: 0, height: 0, weight: 0)
+        
+        manager.getDetailsPokemon(id: id) { details in
+            DispatchQueue.main.async {
+                self.pokemonDetails = details
+                self.isLoading = false
+            }
+        }
+    }
+    
 }

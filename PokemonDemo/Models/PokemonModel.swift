@@ -13,7 +13,8 @@ struct PokemonPage: Codable {
     let results: [PokemonModel]
 }
 
-struct PokemonModel: Codable, Equatable  {
+struct PokemonModel: Codable, Identifiable, Equatable {
+    let id = UUID()
     let name: String
     let url: String
     
@@ -24,4 +25,6 @@ struct PokemonDetails: Codable {
     let id: Int
     let height: Int
     let weight: Int
+    
+    static var example = PokemonDetails(id: 1, height: 7, weight: 69)
 }
